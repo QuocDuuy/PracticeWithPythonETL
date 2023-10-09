@@ -40,7 +40,7 @@ class dataProcessor:
 
         # Hiển thị một số mẫu dữ liệu
         num_samples = 5  # Số lượng mẫu dữ liệu bạn muốn hiển thị
-        print(f"\nMột số mẫu dữ liệu:")
+        print(f"\n5 dữ liệu đầu tiên:")
         print(df.head(num_samples))  # Sử dụng df.head() để hiển thị mẫu dữ liệu
 
 
@@ -88,7 +88,7 @@ class dataProcessor:
             if isinstance(self.df, pd.DataFrame):
                 # Chuyển tên cột thành Proper Case và thay đổi khoảng trắng và dấu gạch ngang thành gạch dưới
                 self.df.columns = [col.title().replace(" ", "_").replace("-", "_") for col in self.df.columns]
-                print(self.df)
+                # print(self.df)
                 return self.df
             else:
                 print("DataFrame 'self.df' is not available or is not of type pd.DataFrame.")
@@ -117,8 +117,6 @@ class dataProcessor:
         except Exception as e:
             print(f"Error to remove accent from string: {str(e)}")
 
-
-
-
     def replace_null_values(self):
         self.df = self.df.fillna("NA")
+        return self.df

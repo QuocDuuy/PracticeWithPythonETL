@@ -1,4 +1,5 @@
 import os
+from time import sleep
 from Libs.data_process import dataProcessor
 from Libs.data_process import fileReader
 from Libs.import_db import connectToDatabase
@@ -58,15 +59,31 @@ if __name__ == '__main__':
                 dataProcessor(df).change_value_to_datetime(df)
 
 
-
-
+                
                 print("Complete transformation")
             except Exception as e:
                 print(f"Unsuccessful to process data: {str(e)}")
 
             # Chức năng "Load" (nếu cần)
             print("--->LOAD<---")
-            # Thực hiện chức năng load dữ liệu vào một hệ thống lưu trữ hoặc cơ sở dữ liệu nếu cần
+            
+            #tạo collection dựa theo tên của file_name
+            collection_name = os.path.splitext(file_name)[0]
+            collection = db[collection_name]
+
+            try:
+                #chèn dữ liệu vào trong database
+                insert_df = df.to_dict(orient='records')
+                # print(insert_df)
+                collection.insert_many(insert_df)
+
+                
+                print(f"Data from {file_name} inserted into MongoDB collection: {collection_name}")
+                print("continue in 5s")
+                sleep(5)
+            except Exception as e:
+                print(f"Unsuccessful to insert data into MongoDB with {str(e)}")
+            # Thực hiện chức năng load  dữ liệu vào một hệ thống lưu trữ hoặc cơ sở dữ liệu nếu cần
 
     except Exception as e:
         print(f"Error processing file: {str(e)}")
